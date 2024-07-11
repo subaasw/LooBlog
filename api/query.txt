@@ -1,0 +1,5 @@
+create table if not exists users(id int not null auto_increment, username varchar(50) not null, email varchar(255)
+unique, password varchar(255) not null, img text, Primary key(id));
+
+create table posts(id int not null auto_increment, title varchar(255) not null, `desc` text not null, img text not null,
+date datetime not null, uid int not null, primary key(id), foreign key(uid) references users(id) on delete cascade);

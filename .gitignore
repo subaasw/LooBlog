@@ -1,0 +1,29 @@
+# Ignore node_modules in the front-end (React) directory
+app/node_modules/
+
+# Ignore node_modules in the back-end (Node.js) directory
+api/node_modules/
+
+# Ignore build artifacts and other common files
+api/build/
+app/build/
+
+# Ignore environment configuration files
+.env*.local
+.env
+
+# Ignore logs
+*.log
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore npm debug files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore other potential unwanted files or directories
+.vscode/
+.idea/
