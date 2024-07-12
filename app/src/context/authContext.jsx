@@ -25,8 +25,6 @@ export default function AuthContextProvider({ children }) {
     localStorage.setItem("user", JSON.stringify(currentUser));
   }, [currentUser]);
 
-  console.log("hhhh", getUserFromLocalStorage());
-
   return (
     <AuthContext.Provider value={{ currentUser, login, logout }}>
       {children}

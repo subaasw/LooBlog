@@ -5,3 +5,7 @@
 :root {
   font-family: "Gilda Display", serif;
 }
+
+.quill-editor-wrapper .ql-container{
+  height: 420px;
+}
