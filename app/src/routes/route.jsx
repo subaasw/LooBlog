@@ -7,6 +7,7 @@ import Write from "@/pages/Write";
 import PasswordReset from "@/pages/PasswordReset";
 import Contact from "@/pages/Contact";
 import Page404 from "@/pages/404";
+import Blogs from "@/pages/Blogs";
 
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -32,7 +33,11 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-      ,
+      {
+        path: "/blogs",
+        element: <Blogs />,
+      },
+
       {
         path: "/contact",
         element: <Contact />,

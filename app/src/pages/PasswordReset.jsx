@@ -3,20 +3,33 @@ import { Navigate } from "react-router-dom";
 import { useAuthContext } from "@/context/authContext";
 
 export default function PasswordReset() {
-  const { currentUser } = useAuthContext();
+  const { currentUser, resetPassword } = useAuthContext();
   const [data, setData] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
 
+  const [error, setError] = useState("");
+
   const handleChange = (e) => {
     setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (data.newPassword !== data.confirmPassword) {
+      setError("Password does not matched!");
+      return;
+    }
+
+    try {
+      resetPassword(data);
+    } catch (error) {
+      setError(error.data);
+    }
   };
 
   if (!currentUser?.id) {
@@ -43,7 +56,7 @@ export default function PasswordReset() {
                 </label>
                 <input
                   id="currentPassword"
-                  name="password"
+                  name="currentPassword"
                   type="password"
                   placeholder="Current password"
                   aria-placeholder="Current Password"
@@ -58,7 +71,7 @@ export default function PasswordReset() {
                 </label>
                 <input
                   id="newPassword"
-                  name="password"
+                  name="newPassword"
                   type="password"
                   placeholder="New password"
                   aria-placeholder="New password"
@@ -93,6 +106,8 @@ export default function PasswordReset() {
                 Submit
               </button>
             </div>
+
+            {error ? <p className="text-red-500">{error}</p> : null}
           </form>
         </div>
       </section>

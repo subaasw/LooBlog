@@ -4,6 +4,9 @@ app/node_modules/
 # Ignore node_modules in the back-end (Node.js) directory
 api/node_modules/
 
+# Ignore image uploads
+api/uploads/
+
 # Ignore build artifacts and other common files
 api/build/
 app/build/

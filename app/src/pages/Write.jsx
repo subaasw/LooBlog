@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import ReactQuill from "react-quill";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
-import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
+
+import { addANewPost, updatePost } from "@/utils/api/posts";
+import { useAuthContext } from "@/context/authContext";
 import axios from "@/utils/axiosConfig";
+import "react-quill/dist/quill.snow.css";
 
 const categories = [
   "technology",
@@ -28,7 +31,6 @@ const FileUpload = ({ setFile }) => {
 };
 
 const Categories = ({ cat, setCat }) => {
-  console.log(cat);
   return (
     <div className="w-64">
       <h2 className="mb-4">Choose Categories</h2>
@@ -61,6 +63,8 @@ const Categories = ({ cat, setCat }) => {
 export default function Write() {
   const state = useLocation().state;
   const navigate = useNavigate();
+  const { currentUser } = useAuthContext();
+
   const [value, setValue] = useState(state?.desc || "");
   const [title, setTitle] = useState(state?.title || "");
   const [cat, setCat] = useState(state?.cat || "");
@@ -73,7 +77,7 @@ export default function Write() {
       const res = await axios.post("/uploads", formData);
       return res.data;
     } catch (error) {
-      console.log(error);
+      console.warn(error);
     }
   };
 
@@ -83,14 +87,14 @@ export default function Write() {
 
     try {
       if (state) {
-        await axios.put(`/posts/${state.id}`, {
+        await updatePost(state.id, {
           title,
           desc: value,
           img: file ? imgUrl : "",
           cat,
         });
       } else {
-        await axios.post(`/posts`, {
+        await addANewPost({
           title,
           desc: value,
           cat,
@@ -100,9 +104,13 @@ export default function Write() {
       }
       navigate("/");
     } catch (error) {
-      console.log(error);
+      console.warn(error);
     }
   };
+
+  if (!currentUser?.id) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <section className="items-center 2xl:max-w-7xl max-w-6xl md:px-12 mx-auto px-8 pt-32">
@@ -130,112 +138,12 @@ export default function Write() {
           <div className="flex flex-col gap-2 mb-4">
             <FileUpload setFile={setFile} />
             <Categories cat={cat} setCat={setCat} />
-            <button className="bg-wood-700 font-medium self-start py-2 px-4 cursor-pointer">Publish</button>
+            <button className="bg-wood-700 font-medium self-start py-2 px-4 cursor-pointer">
+              Publish
+            </button>
           </div>
         </div>
       </form>
     </section>
-    // <div className="add">
-    //   <div className="content">
-    //     <input
-    //       type="text"
-    //       placeholder="title"
-    //       value={title}
-    //       onChange={(e) => setTitle(e.target.value)}
-    //     />
-    //     <div className="editorContainer">
-    //       <ReactQuill className="editor" value={value} onChange={setValue} />
-    //     </div>
-    //   </div>
-    //   <div className="menu">
-    //     <div className="item">
-    //       <h1>Publish</h1>
-    //       <span>
-    //         <b>Status:</b> Draft
-    //       </span>
-    //       <span>
-    //         <b>Visibility:</b> Public
-    //       </span>
-    //       <input
-    //         style={{
-    //           display: "none",
-    //         }}
-    //         type="file"
-    //         name=""
-    //         id="file"
-    //         onChange={(e) => setFile(e.target.files[0])}
-    //       />
-    //       <label className="file" htmlFor="file">
-    //         Upload Image
-    //       </label>
-    //       <div className="buttons">
-    //         <button>Save as a draft</button>
-    //         <button onClick={handleSubmit}>Publish</button>
-    //       </div>
-    //     </div>
-    //     <div className="item">
-    //       <h1>Category</h1>
-    //       <input
-    //         type="radio"
-    //         name="cat"
-    //         value="art"
-    //         id="art"
-    //         checked={cat === "art"}
-    //         onChange={(e) => setCat(e.target.value)}
-    //       />
-    //       <label htmlFor="art">Art</label>
-
-    //       <input
-    //         type="radio"
-    //         name="cat"
-    //         value="science"
-    //         id="science"
-    //         checked={cat === "science"}
-    //         onChange={(e) => setCat(e.target.value)}
-    //       />
-    //       <label htmlFor="science">Science</label>
-
-    //       <input
-    //         type="radio"
-    //         name="cat"
-    //         value="technology"
-    //         id="technology"
-    //         checked={cat === "technology"}
-    //         onChange={(e) => setCat(e.target.value)}
-    //       />
-    //       <label htmlFor="technology">Technology</label>
-
-    //       <input
-    //         type="radio"
-    //         name="cat"
-    //         value="cinema"
-    //         id="cinema"
-    //         checked={cat === "cinema"}
-    //         onChange={(e) => setCat(e.target.value)}
-    //       />
-    //       <label htmlFor="cinema">Cinema</label>
-
-    //       <input
-    //         type="radio"
-    //         name="cat"
-    //         value="design"
-    //         id="design"
-    //         checked={cat === "design"}
-    //         onChange={(e) => setCat(e.target.value)}
-    //       />
-    //       <label htmlFor="design">Design</label>
-
-    //       <input
-    //         type="radio"
-    //         name="cat"
-    //         value="food"
-    //         id="food"
-    //         checked={cat === "food"}
-    //         onChange={(e) => setCat(e.target.value)}
-    //       />
-    //       <label htmlFor="food">Food</label>
-    //     </div>
-    //   </div>
-    // </div>
   );
 }

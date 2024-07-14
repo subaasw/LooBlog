@@ -63,6 +63,46 @@ export const login = (req, res) => {
   });
 };
 
+export const reset = (req, res) => {
+  const currentPassword = req.body.currentPassword;
+  const newPassword = req.body.newPassword;
+
+  const token = req.cookies.access_token;
+
+  if (!token) return res.status(401).json("Not authenticated");
+
+  jwt.verify(token, "SuperSecretKey", (err, userInfo) => {
+    if (err) return res.status(403).json("Invalid Token!");
+
+    const query = "SELECT * from users WHERE id = ?";
+    const userId = userInfo.id;
+
+    db.query(query, [userId], (err, data) => {
+      // check password
+      const isPasswordCorrect = bcrypt.compareSync(
+        currentPassword,
+        data[0].password
+      );
+
+      if (!isPasswordCorrect) {
+        return res.status(400).json("Password does not match!");
+      }
+
+      // Hash the password and create a user
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(newPassword, salt);
+
+      const passwordUpdateQuery = "UPDATE users SET password = ? where id = ?";
+
+      db.query(passwordUpdateQuery, [hash, userId], (err, data) => {
+        if (err) return res.status(500).json("Something went wrong!");
+
+        return res.status(200).json("Password has been updated!");
+      });
+    });
+  });
+};
+
 export const logout = (req, res) => {
   return res
     .clearCookie("access_token", {

@@ -1,11 +1,12 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
 
+
+import { upload } from "./controllers/uploader.js";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import postRoutes from "./routes/posts.js";
@@ -30,17 +31,6 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 app.use("/images", express.static(uploadDir));
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./uploads");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname);
-  },
-});
-
-const upload = multer({ storage });
 
 app.post("/api/uploads", upload.single("file"), (req, res) => {
   const file = req.file.filename;

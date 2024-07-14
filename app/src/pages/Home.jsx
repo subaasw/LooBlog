@@ -5,7 +5,7 @@ import useDominantColor from "@/hooks/useDominantColor";
 
 import GhostImage from "@/assets/ghost.png";
 import BgImage from "@/assets/image.png";
-import useImageTransparency from "../hooks/useImageTransparency";
+import useImageTransparency from "@/hooks/useImageTransparency";
 
 const posts = [
   {
@@ -87,20 +87,20 @@ const RenderBackgroundImageBlock = ({ image, title }) => {
   if (hasTransparency) {
     return (
       <div
-        class="w-full absolute inset-0"
+        className="w-full absolute inset-0"
         style={{
           backgroundColor: dominatorColor,
         }}
       >
-        <img class="float-right h-full" src={image} alt={title} />
+        <img className="float-right h-full" src={image} alt={title} />
       </div>
     );
   }
 
   return (
-    <div class="w-full absolute inset-0">
+    <div className="w-full absolute inset-0">
       <img
-        class="w-full aspect-video h-full object-cover"
+        className="w-full aspect-video h-full object-cover"
         src={GhostImage}
         alt={title}
       />
@@ -112,12 +112,12 @@ const Main = () => {
   return (
     <>
       <section>
-        <div class="items-center 2xl:max-w-7xl max-w-6xl md:px-12 mx-auto px-8 pt-32">
-          <div class="border-b pb-5 text-balance">
-            <p class="text-black font-serif text-4xl lg:text-8xl uppercase font-semibold">
+        <div className="items-center 2xl:max-w-7xl max-w-6xl md:px-12 mx-auto px-8 pt-32">
+          <div className="border-b pb-5 text-balance">
+            <p className="text-black font-serif text-4xl lg:text-8xl uppercase font-semibold">
               Welcome to user's blog!
             </p>
-            <p class="text-slate-600 mt-4 text-lg">
+            <p className="text-slate-600 mt-4 text-lg">
               Advice, Strategies, Insights and Stories for the success of
               companies, schools and start-ups.
             </p>
@@ -125,37 +125,38 @@ const Main = () => {
         </div>
       </section>
       <section>
-        <div class="mx-auto 2xl:max-w-screen-2xl md:px-12 px-8 grid py-12 space-y-6">
+        <div className="mx-auto 2xl:max-w-screen-2xl md:px-12 px-8 grid py-12 space-y-6">
           <a
             href="/posts/1"
             title="The Secret Garden of Elsie"
             aria-label="Elsie discovers a hidden garden in the middle of the city and uncovers a magical world of talking animals and enchanted plants"
           >
-            <div class="w-full lg:pt-6 relative">
-              <article class="mx-auto 2xl:max-w-7xl md:px-12 lg:py-24 px-4 py-4">
+            <div className="w-full lg:pt-6 relative">
+              <article className="mx-auto 2xl:max-w-7xl md:px-12 lg:py-24 px-4 py-4">
                 <RenderBackgroundImageBlock
                   image={GhostImage}
-                  title="12 recrents of javascript"
+                  title="12 secrets of javascript"
                 />
-                <div class="relative 2xl:max-w-7xl lg:mt-24 max-w-6xl md:p-10 mx-auto p-4">
-                  <div class="bg-wood-100 p-4 lg:-mb-[8.5rem] lg:p-10 max-w-xl sm:p-8 text-balance">
+                <div className="relative 2xl:max-w-7xl lg:mt-24 max-w-6xl md:p-10 mx-auto p-4">
+                  <div className="bg-wood-100 p-4 lg:-mb-[8.5rem] lg:p-10 max-w-xl sm:p-8 text-balance">
                     <div>
-                      <h1 class="text-black uppercase font-serif text-5xl font-bold">
-                        The Secret Garden of Elsie
+                      <h1 className="text-black uppercase font-serif text-5xl font-bold line-clamp-2">
+                        The 5 Rules of Effective Component-Driven Development
                       </h1>
-                      <p class="text-black mt-4 text-lg">
-                        Elsie discovers a hidden garden in the middle of the
-                        city and uncovers a magical world of talking animals and
-                        enchanted plants
+                      <p className="text-black mt-4 text-lg">
+                        In this article, I'll deeply explore component-based
+                        development. I’ll demonstrate how this approach can
+                        enhance system flexibility, boost teamwork, decrease the
+                        stress and time associated with implementation.
                       </p>
                     </div>
-                    <div class="items-center inline-flex space-x-1 mt-10">
-                      <p class="font-medium text-gray-900 text-sm">
-                        Alejandro Martinez
+                    <div className="items-center inline-flex space-x-1 mt-10">
+                      <p className="font-medium text-gray-900 text-sm">
+                        John Doe
                       </p>
                       <span aria-hidden="true">·</span>
-                      <div class="flex text-gray-500 text-sm">
-                        <time datetime="Mon Jan 01">Mon Jan 01</time>
+                      <div className="flex text-gray-500 text-sm">
+                        <time dateTime="Mon Jan 01">Mon Jul 01</time>
                       </div>
                     </div>
                   </div>
@@ -166,8 +167,8 @@ const Main = () => {
         </div>
       </section>
       <section>
-        <div class="2xl:max-w-7xl max-w-6xl md:px-12 mx-auto px-8 py-12">
-          <div class="grid gap-4 grid-cols-1 lg:gap-y-24 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="2xl:max-w-7xl max-w-6xl md:px-12 mx-auto px-8 py-12">
+          <div className="grid gap-4 grid-cols-1 lg:gap-y-24 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post) => (
               <a
                 href={`/post/${post.id}`}

@@ -38,8 +38,6 @@ export const addPost = (req, res) => {
 
     const { title, desc, img, cat, date } = req.body;
 
-    console.log({title, desc, img, cat, date});
-
     db.query(insetQuery, [title, desc, img, cat, date, userInfo.id], (err, data) => {
       if (err) return res.status(500).json(err);
 

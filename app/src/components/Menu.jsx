@@ -41,17 +41,16 @@ export default function Menu({ cat }) {
     };
     fetchData();
   }, [cat]);
-  
+
   return (
-    <div className="menu">
-      <h1>Other post you may like</h1>
+    <>
       {posts.map((post) => (
         <div className="post" key={post.id}>
           <img src={post.img} alt="" />
-          <h2>{post.title}</h2>
-          <button>Read More</button>
+          <h2 className="line-clamp-3">{post.title}</h2>
+          <button className="text-wood-900 underline">Read More</button>
         </div>
       ))}
-    </div>
+    </>
   );
 }

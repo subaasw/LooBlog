@@ -6,7 +6,6 @@ import Header from "./Header";
 
 export default function Navbar() {
   const { currentUser, logout } = useAuthContext();
-  console.log(currentUser, "navbar");
   return (
     <>
     <Header />

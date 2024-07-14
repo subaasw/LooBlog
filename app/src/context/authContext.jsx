@@ -21,12 +21,17 @@ export default function AuthContextProvider({ children }) {
     setCurrentUser(null);
   };
 
+  const resetPassword = async (inputs) => {
+    const res = await axios.post("/auth/reset", inputs);
+    if (res.statusText === "OK") await logout();
+  };
+
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(currentUser));
   }, [currentUser]);
 
   return (
-    <AuthContext.Provider value={{ currentUser, login, logout }}>
+    <AuthContext.Provider value={{ currentUser, login, logout, resetPassword }}>
       {children}
     </AuthContext.Provider>
   );

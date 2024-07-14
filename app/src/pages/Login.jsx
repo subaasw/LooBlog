@@ -21,9 +21,8 @@ function Login() {
     try {
       const res = await login(inputs);
       navigate("/");
-      console.log(res);
     } catch (err) {
-      console.log(err);
+      console.warn(err);
       setError(err.response.data);
     }
   };
